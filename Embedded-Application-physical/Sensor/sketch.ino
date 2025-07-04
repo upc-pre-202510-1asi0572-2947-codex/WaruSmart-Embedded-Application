@@ -1,35 +1,35 @@
 #include "ModestIoT.h"
 
-// Inicialización de objetos
-DHTSensor dhtSensor(DHTPIN, DHTTYPE);
-SoilMoistureSensor soilMoistureSensor(SOIL_MOISTURE_PIN);
-WiFiConnection wifiConnection(ssid, password);
+// Initialize sensor and WiFi objects with the specified pins and credentials
+DHTSensor dhtSensor(DHTPIN, DHTTYPE);                  // DHT sensor for temperature and humidity
+SoilMoistureSensor soilMoistureSensor(SOIL_MOISTURE_PIN);  // Soil moisture sensor
+WiFiConnection wifiConnection(ssid, password);        // WiFi connection object
 
 void setup() {
-    Serial.begin(115200);
+    Serial.begin(115200);  // Initialize serial communication at 115200 baud rate
 
-    // Conectar al WiFi
+    // Connect to WiFi
     wifiConnection.connect();
 
-    // Iniciar sensores
-    dhtSensor.begin();
+    // Initialize sensors
+    dhtSensor.begin();  // Start the DHT sensor
 }
 
 void loop() {
-    // Leer temperatura y humedad
+    // Read temperature and humidity from the DHT sensor
     float temperature = dhtSensor.getTemperature();
     float humidity = dhtSensor.getHumidity();
 
-    // Leer humedad del suelo
+    // Read soil moisture from the soil moisture sensor
     int moisture = soilMoistureSensor.readMoisture();
 
-    // Mostrar los datos
-    Serial.print("Temperatura: ");
+    // Print the sensor readings to the serial monitor
+    Serial.print("Temperature: ");
     Serial.println(temperature);
-    Serial.print("Humedad: ");
+    Serial.print("Humidity: ");
     Serial.println(humidity);
-    Serial.print("Humedad del suelo: ");
+    Serial.print("Soil Moisture: ");
     Serial.println(moisture);
 
-    delay(2000);
+    delay(2000);  // Wait for 2 seconds before the next loop
 }
